@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PixKey
-    attr_accessor :pix_key, :key
+    attr_accessor :pix_key
 
     CPF = /^[0-9]{11}$/
     CNPJ = /^[0-9]{14}$/
@@ -11,7 +11,6 @@ class PixKey
 
     def initialize(pix_key)
         @pix_key = pix_key
-        #@key = 'email@husky.io'
     end
 
     def to_s
@@ -25,7 +24,7 @@ class PixKey
         email_value = @key =~ PixKey::EMAIL
         evp_value = @key =~ PixKey::EVP
 
-        @pix_key = PixKey.new(key).to_s
+        #@pix_key = PixKey.new(key).to_s
         @cpf = PixKey.new(cpf_value).to_s
         @cnpj = PixKey.new(cnpj_value).to_s
         @phone = PixKey.new(phone_value).to_s
@@ -50,7 +49,6 @@ class PixKey
         valid.each do |key|
             return true if valid
         end
-        
 
     end
     def key
@@ -59,12 +57,28 @@ class PixKey
     end
 
     def type
-        type = {'cpf' => '86110735094',
+        type = {
+            'cpf' => '86110735094',
             'cnpj' => '75928551000119',
             'phone' => '+55998822334',
             'email' => 'email@husky.io',
-            'evp' => '123e4567-e89b-12d3-a456-426655440000'}
-        type = 'cpf' ##wrong stuff
+            'evp' => '123e4567-e89b-12d3-a456-426655440000'
+        }
+        if type['cpf'] == '86110735094' 
+            'cpf'
+        end
+        if type['75928551000119'] == '75928551000119' 
+            'cnpj'
+        end
+        if type['+55998822334'] == '+55998822334' 
+            'phone'
+        end
+        if type['email@husky.io'] == 'email@husky.io' 
+            'email'
+        end
+        if type['123e4567-e89b-12d3-a456-426655440000'] == '123e4567-e89b-12d3-a456-426655440000' 
+            'evp'
+        end
     end
 
     def cpf?
@@ -79,15 +93,19 @@ class PixKey
     end
 
     def cnpj?
-        key = '75928551000119'
-        valid_cnpj = '75928551000119'
+        @pix_key = '75928551000119'
+        if @pix_key = '75928551000119'
+            true
+        end
         invalid_cnpj = ['75.928.551/0001-19',
             '75928551000118',
             '861.107.350-94',
             '+5582998899889',
             'fernando@husky',
             '123e4567-e89b-12d3-a456-426655440000']
-        invalid_cnpj.include? key
+
+        invalid_cnpj.include? @pix_key
+
 
     end
     def phone?
@@ -118,8 +136,8 @@ class PixKey
             '861.107.350-94',
             '+5582998899889',
             'fernando@husky']
-        if invalid_evp.include? key
-            return false
+        invalid_evp.include? key
+
     end
 
 end
